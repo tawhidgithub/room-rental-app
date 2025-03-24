@@ -2,21 +2,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String url;
-  final String method;
-  final Map<String, dynamic>? data;
-  final Map<String, String>? headers;
+
 
   // Constructor to accept URL, method, data, and headers
-  ApiService({
-    required this.url,
-    required this.method,
-    this.data,
-    this.headers,
-  });
+
 
   // Function to make the API request
-  Future<Map<String, dynamic>?> makeRequest() async {
+  Future<Map<String, dynamic>?> makeRequest({required url ,required method,}) async {
     try {
       final uri = Uri.parse(url);
       http.Response response;
@@ -24,24 +16,23 @@ class ApiService {
       // Choose the HTTP method dynamically
       switch (method.toUpperCase()) {
         case 'GET':
-          response = await http.get(uri, headers: headers);
+          response = await http.get(uri,);
           break;
         case 'POST':
           response = await http.post(
             uri,
-            headers: headers ?? {"Content-Type": "application/json"},
-            body: jsonEncode(data),
+            headers:  {"Content-Type": "application/json"},
+
           );
           break;
         case 'PUT':
           response = await http.put(
             uri,
-            headers: headers ?? {"Content-Type": "application/json"},
-            body: jsonEncode(data),
+            headers:{"Content-Type": "application/json"},
           );
           break;
         case 'DELETE':
-          response = await http.delete(uri, headers: headers);
+          response = await http.delete(uri,);
           break;
         default:
           throw Exception('Invalid HTTP method: $method');

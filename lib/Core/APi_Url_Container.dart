@@ -1,6 +1,6 @@
 class ApiUrlContainer{
 
-  static const baseUrl="https://f5ce0317-845a-4854-bd2f-c980a7b8d4d5.mock.pstmn.io";
+  static const baseUrl="https://d3163fd8-3eb6-4fb9-a45a-91da72f7a7a7.mock.pstmn.io";
   static const details="/details";
 
 }
