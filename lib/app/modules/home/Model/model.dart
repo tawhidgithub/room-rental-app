@@ -93,7 +93,7 @@ class Datum {
 }
 
 class Availability {
-  Status? status;
+  String? status;
   DateTime? moveInDate;
 
   Availability({
@@ -106,23 +106,19 @@ class Availability {
   String toRawJson() => json.encode(toJson());
 
   factory Availability.fromJson(Map<String, dynamic> json) => Availability(
-    status: statusValues.map[json["status"]]!,
+    status: json["status"]!,
     moveInDate: json["move_in_date"] == null ? null : DateTime.parse(json["move_in_date"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "status": statusValues.reverse[status],
+    "status": status,
     "move_in_date": "${moveInDate!.year.toString().padLeft(4, '0')}-${moveInDate!.month.toString().padLeft(2, '0')}-${moveInDate!.day.toString().padLeft(2, '0')}",
   };
 }
 
-enum Status {
-  AVAILABLE
-}
 
-final statusValues = EnumValues({
-  "available": Status.AVAILABLE
-});
+
+
 
 class Features {
   int? bedrooms;
@@ -224,14 +220,4 @@ class Location {
   };
 }
 
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
 
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
-}
