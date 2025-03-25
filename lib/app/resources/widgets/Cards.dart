@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:room_rental_app/app/resources/color.dart';
 
@@ -31,7 +33,7 @@ class CardsView extends StatelessWidget {
                 topRight: Radius.circular(10),
                 topLeft: Radius.circular(10),
               ),
-              child: Image.network(image, fit: BoxFit.fill),
+              child: Image.file(File(image), fit: BoxFit.fill),
             ),
           ),
 

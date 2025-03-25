@@ -1,5 +1,7 @@
 import 'dart:ffi';
+import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,6 +23,7 @@ class AddProductController extends GetxController {
   }
 
   Rxn<XFile> image = Rxn<XFile>();
+  Uint8List? imageInByte;
   void increment() => count.value++;
 
   // Form field controllers
@@ -62,7 +65,7 @@ class AddProductController extends GetxController {
     DBConfig().addProduct(
       name: nameController.text,
       price: priceController.text ,
-      imageUrl: image.value!.path,
+      imageUrl: imageInByte.toString(),
       landlordName: landlordNameController.text,
       address: addressController.text,
       landlordEmail: landlordEmailController.text,
@@ -85,6 +88,11 @@ class AddProductController extends GetxController {
           await ImagePickerService().pickImageFromGallery() as XFile;
 
       image.value = imagePath;
+      imageInByte = await imagePath.readAsBytes();
+      if(kDebugMode){
+
+        print("--------------$imageInByte");
+      }
     } catch (e) {
       rethrow;
     }

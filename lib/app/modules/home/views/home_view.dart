@@ -108,11 +108,12 @@ class HomeView extends GetView<HomeController> {
 
                           },
                           child: CardsView(
-                            location: controller.data[index].location!.city!,
-                            image:controller.data[index].images![0],
-                            description:controller.data[index].description!,
-                            price:controller.data[index].price!.toString(),
-                            title: controller.data[index].title!, landlordInfo: controller.data[index].landlord!.name!,
+                            location: controller.propertyData[index]['city'],
+                            image:controller.propertyData[index]["imageUrl"],
+                            description:controller.propertyData[index]['address'],
+                            price:controller.propertyData[index]['price'],
+                            title: controller.propertyData[index]['name'],
+                            landlordInfo: controller.propertyData[index]['landlordName'],
                           ),
                         ),
                       );
