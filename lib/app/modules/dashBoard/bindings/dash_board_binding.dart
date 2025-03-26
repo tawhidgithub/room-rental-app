@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:room_rental_app/app/modules/details/controllers/details_controller.dart';
+import 'package:room_rental_app/app/modules/editData/controllers/edit_data_controller.dart';
 import 'package:room_rental_app/app/modules/home/Home%20Repo/repo.dart';
 import 'package:room_rental_app/app/modules/home/controllers/home_controller.dart';
 import 'package:room_rental_app/app/modules/profile/controllers/profile_controller.dart';
@@ -23,6 +24,8 @@ class DashBoardBinding extends Bindings {
       () => ProfileController(),
     );Get.lazyPut<DetailsController>(
       () => DetailsController(),
+    );Get.lazyPut<EditDataController>(
+      () => EditDataController(),
     );
   }
 }

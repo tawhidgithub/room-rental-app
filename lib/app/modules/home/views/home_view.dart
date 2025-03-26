@@ -94,7 +94,31 @@ class HomeView extends GetView<HomeController> {
                   ),
                 ),
                 /// card
-                SliverList(delegate: SliverChildBuilderDelegate(
+              controller.propertyData.isEmpty ? SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 300),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+
+                    children: [
+                      Text(
+                        "No Property to show",
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: ColorManager.primaryWhite,
+                        ),
+                      ),
+                      Text(
+                        "Add property to show here",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: ColorManager.primaryWhite,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ) : SliverList(delegate: SliverChildBuilderDelegate(
                     childCount: controller.propertyData.length,
                         (context,index){
 
@@ -102,7 +126,7 @@ class HomeView extends GetView<HomeController> {
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: InkWell(
                           onTap: (){
-                            controller.detailsController.rentalModel=controller.data[index];
+                            controller.detailsController.rentalModel=controller.propertyData[index];
 
                             Get.toNamed(Routes.DETAILS);
 
@@ -110,7 +134,8 @@ class HomeView extends GetView<HomeController> {
                           child: CardsView(
                             location: controller.propertyData[index]['city'],
                             image:controller.propertyData[index]["imageUrl"],
-                            description:controller.propertyData[index]['address'],
+                            rating:controller.propertyData[index]["rating"] ,
+                            description:controller.propertyData[index]['description'],
                             price:controller.propertyData[index]['price'],
                             title: controller.propertyData[index]['name'],
                             landlordInfo: controller.propertyData[index]['landlordName'],

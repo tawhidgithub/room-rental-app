@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -27,8 +29,8 @@ class DetailsView extends GetView<DetailsController> {
                     topRight: Radius.circular(10),
                     topLeft: Radius.circular(10),
                   ),
-                  child: Image.network(
-                    controller.rentalModel!.images.toString() ?? "",
+                  child: Image.file(
+                    File(controller.rentalModel!['imageUrl']),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -73,7 +75,7 @@ class DetailsView extends GetView<DetailsController> {
                                 ),
                               ),
                               Text(
-                                controller.rentalModel!.landlord!.name!,
+                                controller.rentalModel!['landlordName'],
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -92,7 +94,7 @@ class DetailsView extends GetView<DetailsController> {
                                 ),
                               ),
                               Text(
-                                controller.rentalModel!.landlord!.contact!,
+                                controller.rentalModel!['landlordNumber'],
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -111,7 +113,7 @@ class DetailsView extends GetView<DetailsController> {
                                 ),
                               ),
                               Text(
-                                controller.rentalModel!.landlord!.email!,
+                                controller.rentalModel!['landlordEmail'],
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -165,7 +167,7 @@ class DetailsView extends GetView<DetailsController> {
                                 ),
                               ),
                               Text(
-                                controller.rentalModel!.location!.address!,
+                                controller.rentalModel!['address'],
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -184,7 +186,7 @@ class DetailsView extends GetView<DetailsController> {
                                 ),
                               ),
                               Text(
-                                controller.rentalModel!.location!.city!,
+                                controller.rentalModel!['city'],
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -192,25 +194,7 @@ class DetailsView extends GetView<DetailsController> {
                               ),
                             ],
                           ),
-                          Row(
-                            spacing: 20,
-                            children: [
-                              Text(
-                                "State :",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                controller.rentalModel!.location!.state!,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
+
                         ],
                       ),
                     ),
@@ -257,8 +241,7 @@ class DetailsView extends GetView<DetailsController> {
                                 ),
                               ),
                               Text(
-                                controller.rentalModel!.features!.bathrooms!
-                                    .toString(),
+                                controller.rentalModel!['bathRoom'],
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -277,8 +260,7 @@ class DetailsView extends GetView<DetailsController> {
                                 ),
                               ),
                               Text(
-                                controller.rentalModel!.features!.bedrooms!
-                                    .toString(),
+                                controller.rentalModel!['badRoom'],
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -286,26 +268,7 @@ class DetailsView extends GetView<DetailsController> {
                               ),
                             ],
                           ),
-                          Row(
-                            spacing: 20,
-                            children: [
-                              Text(
-                                "Furnished :",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                controller.rentalModel!.features!.furnished!
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
+
                           Row(
                             spacing: 20,
                             children: [
@@ -317,8 +280,7 @@ class DetailsView extends GetView<DetailsController> {
                                 ),
                               ),
                               Text(
-                                controller.rentalModel!.features!.parking!
-                                    .toString(),
+                                controller.rentalModel!['parking'],
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w500,
@@ -337,7 +299,7 @@ class DetailsView extends GetView<DetailsController> {
                                 ),
                               ),
                               Text(
-                                controller.rentalModel!.features!.wifi!
+                                controller.rentalModel!['wifi']
                                     .toString(),
                                 style: TextStyle(
                                   fontSize: 15,
@@ -354,60 +316,60 @@ class DetailsView extends GetView<DetailsController> {
               ),
             ),
 
-            /// Status
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Column(
-                  spacing: 5,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Status",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          width: 1,
-                          color: ColorManager.secondaryTextColor,
-                        ),
-                      ),
-                      child: Column(
-                        spacing: 5,
-                        children: [
-                          Row(
-                            spacing: 20,
-                            children: [
-                              Text(
-                                "Status :",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                controller.rentalModel!.availability!.status
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            // /// Status
+            // SliverToBoxAdapter(
+            //   child: Padding(
+            //     padding: const EdgeInsets.symmetric(vertical: 10),
+            //     child: Column(
+            //       spacing: 5,
+            //       crossAxisAlignment: CrossAxisAlignment.start,
+            //       children: [
+            //         Text(
+            //           "Status",
+            //           style: TextStyle(
+            //             fontSize: 20,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //         Container(
+            //           padding: EdgeInsets.all(5),
+            //           decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(10),
+            //             border: Border.all(
+            //               width: 1,
+            //               color: ColorManager.secondaryTextColor,
+            //             ),
+            //           ),
+            //           child: Column(
+            //             spacing: 5,
+            //             children: [
+            //               Row(
+            //                 spacing: 20,
+            //                 children: [
+            //                   Text(
+            //                     "Status :",
+            //                     style: TextStyle(
+            //                       fontSize: 15,
+            //                       fontWeight: FontWeight.w500,
+            //                     ),
+            //                   ),
+            //                   Text(
+            //                     controller.rentalModel!.availability!.status
+            //                         .toString(),
+            //                     style: TextStyle(
+            //                       fontSize: 15,
+            //                       fontWeight: FontWeight.w500,
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:room_rental_app/app/modules/details/controllers/details_controller.dart';
 import 'package:room_rental_app/app/modules/home/Home%20Repo/repo.dart';
 
@@ -36,6 +38,10 @@ class HomeController extends GetxController {
   void onClose() {
     super.onClose();
   }
+
+
+
+
 
   Future<void> fetchData() async {
     try {

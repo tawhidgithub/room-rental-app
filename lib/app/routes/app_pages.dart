@@ -8,6 +8,8 @@ import '../modules/dashBoard/bindings/dash_board_binding.dart';
 import '../modules/dashBoard/views/dash_board_view.dart';
 import '../modules/details/bindings/details_binding.dart';
 import '../modules/details/views/details_view.dart';
+import '../modules/editData/bindings/edit_data_binding.dart';
+import '../modules/editData/views/edit_data_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.ADD_PRODUCT,
       page: () => const AddProductView(),
       binding: AddProductBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_DATA,
+      page: () => const EditDataView(),
+      binding: EditDataBinding(),
     ),
   ];
 }

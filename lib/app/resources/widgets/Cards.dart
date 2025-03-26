@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:room_rental_app/app/resources/color.dart';
 
 class CardsView extends StatelessWidget {
-  const CardsView({super.key,required this.location, required this.landlordInfo, required this.image,required this.description,required this.price,required this.title});
+  const CardsView({super.key,required this.location,required this.rating, required this.landlordInfo, required this.image,required this.description,required this.price,required this.title});
   final String image;
   final String title;
   final String description;
   final String price;
   final String landlordInfo;
   final String location;
+  final String rating;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class CardsView extends StatelessWidget {
                   spacing: 5,
                   children: [
                     Icon(Icons.star,color: ColorManager.yellow,),
-                    Text("4.6",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
+                    Text(rating,style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),)
                   ],
                 )
               ],

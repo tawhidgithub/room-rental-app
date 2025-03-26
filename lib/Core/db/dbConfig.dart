@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
@@ -33,7 +35,8 @@ class DBConfig {
   Future<void> addProduct({
     required String name,
     required String price,
-    required String imageUrl,
+    required String description,
+    required File imageUrl,
     required String landlordName,
     required String address,
     required String landlordEmail,
@@ -43,7 +46,6 @@ class DBConfig {
     required String parking,
     required String wifi,
     required String city,
-    required String state,
     required String rating,
   }) async {
     if (box == null) {
@@ -54,7 +56,8 @@ class DBConfig {
       final product = {
         'name': name,
         'price': price,
-        'imageUrl': imageUrl,
+        'description': description,
+        'imageUrl': imageUrl.path,
         'landlordName': landlordName,
         'address': address,
         'landlordEmail': landlordEmail,
@@ -64,7 +67,6 @@ class DBConfig {
         'parking': parking,
         'wifi': wifi,
         'city': city,
-        'state': state,
         'rating': rating,
       };
 
@@ -88,4 +90,89 @@ class DBConfig {
       }
     }
   }
+
+  /// edit in data base
+
+
+  Future<void> editProduct({
+    required int index,
+    String? name,
+    String? price,
+    String? description,
+    File? imageUrl,
+    String? landlordName,
+    String? address,
+    String? landlordEmail,
+    String? landlordNumber,
+    String? badRoom,
+    String? bathRoom,
+    String? parking,
+    String? wifi,
+    String? city,
+    String? rating,
+  }) async {
+    if (box == null) {
+      await openDBBox();
+    }
+
+    if (box != null && index < box!.length) {
+      final product = box!.getAt(index) as Map<dynamic, dynamic>?;
+
+      if (product != null) {
+        final updatedProduct = {
+          'name': name ?? product['name'],
+          'price': price ?? product['price'],
+          'description': description ?? product['description'],
+          'imageUrl': imageUrl!.path ?? product['imageUrl'],
+          'landlordName': landlordName ?? product['landlordName'],
+          'address': address ?? product['address'],
+          'landlordEmail': landlordEmail ?? product['landlordEmail'],
+          'landlordNumber': landlordNumber ?? product['landlordNumber'],
+          'badRoom': badRoom ?? product['badRoom'],
+          'bathRoom': bathRoom ?? product['bathRoom'],
+          'parking': parking ?? product['parking'],
+          'wifi': wifi ?? product['wifi'],
+          'city': city ?? product['city'],
+          'rating': rating ?? product['rating'],
+        };
+
+        if (kDebugMode) {
+          print("Editing product at index $index: $updatedProduct");
+        }
+
+        await box!.putAt(index, updatedProduct);
+      } else {
+        if (kDebugMode) {
+          print("No product found at index $index.");
+        }
+      }
+    } else {
+      if (kDebugMode) {
+        print("Index $index is out of range.");
+      }
+    }
+  }
+
+  /// delete from database
+
+  Future<void> deleteProduct(int index) async {
+    if (box == null) {
+      await openDBBox();
+    }
+
+    if (box != null && index < box!.length) {
+      if (kDebugMode) {
+        print("Deleting product at index $index.");
+      }
+
+      await box!.deleteAt(index);
+    } else {
+      if (kDebugMode) {
+        print("Index $index is out of range.");
+      }
+    }
+  }
+
+
+
 }

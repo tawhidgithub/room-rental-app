@@ -1,18 +1,16 @@
-import 'dart:ffi';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:room_rental_app/Core/Image%20Picker%20Service/pickerService.dart';
-import 'package:room_rental_app/Core/db/dbConfig.dart';
 
-class AddProductController extends GetxController {
-  //TODO: Implement AddProductController
+import '../../../../Core/Image Picker Service/pickerService.dart';
+import '../../../../Core/db/dbConfig.dart';
 
-  final count = 0.obs;
+class EditDataController extends GetxController {
+  //TODO: Implement EditDataController
+  late final int? index;
   @override
   void onInit() {
     super.onInit();
@@ -24,8 +22,6 @@ class AddProductController extends GetxController {
   }
 
   Rxn<XFile> image = Rxn<XFile>();
-  Uint8List? imageInByte;
-  void increment() => count.value++;
 
   // Form field controllers
   final nameController = TextEditingController();
@@ -62,13 +58,13 @@ class AddProductController extends GetxController {
     super.onClose();
   }
 
-  void addProduct() async {
+   editProduct(int index) async {
 
     final imageFile = image.value != null ? File(image.value!.path) : null;
 
 
 
-    DBConfig().addProduct(
+    DBConfig().editProduct(
       name: nameController.text,
       price: priceController.text ,
       description: descriptionController.text,
@@ -83,23 +79,32 @@ class AddProductController extends GetxController {
       wifi: wifiController.text,
       city: cityController.text,
       rating: ratingController.text,
-    );
+      index: index,
+    ).then((value){
+
+
+      if(kDebugMode){
+
+
+
+        print("-----------Success-------------");
+      }
+    });
+
     Get.back(result: true);
-  }
+
+
+   }
 
   /// pic Image from gallery
 
   Future<void> picImage() async {
     try {
       XFile imagePath =
-          await ImagePickerService().pickImageFromGallery() as XFile;
+      await ImagePickerService().pickImageFromGallery() as XFile;
 
       image.value = imagePath;
-      imageInByte = await imagePath.readAsBytes();
-      if(kDebugMode){
 
-        print("--------------$imageInByte");
-      }
     } catch (e) {
       rethrow;
     }

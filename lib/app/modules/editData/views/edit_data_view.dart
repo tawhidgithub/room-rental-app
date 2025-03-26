@@ -4,58 +4,65 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:room_rental_app/Core/Image%20Picker%20Service/pickerService.dart';
+import 'package:room_rental_app/app/modules/editData/controllers/edit_data_controller.dart';
 import 'package:room_rental_app/app/resources/color.dart';
 
-import '../controllers/add_product_controller.dart';
 
-class AddProductView extends GetView<AddProductController> {
-  const AddProductView({super.key});
+class EditDataView extends GetView<EditDataController> {
+
+  const EditDataView({super.key,});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('AddProductView'), centerTitle: true),
+      appBar: AppBar(title: const Text('Edit Property'
+          ''
+          ''
+          ''), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Form(
             child: Column(
               children: [
-                InkWell(
-                  onTap: () {
-                    controller.picImage();
-                  },
-                  child: Obx(() {
-                    return Container(
-                      height: 400,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: ColorManager.primaryPurple,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: InkWell(
+                    onTap: () {
+                      controller.picImage();
+                    },
+                    child: Obx(() {
+                      return Container(
+                        height: 400,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: ColorManager.primaryPurple,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child:
-                            controller.image.value == null
-                                ? Icon(
-                                  Icons.add,
-                                  color: ColorManager.primaryPurple,
-                                )
-                                : SizedBox(
-                                  height: double.infinity,
-                                  width: double.infinity,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.file(
-                                      File(controller.image.value!.path),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                      ),
-                    );
-                  }),
+                        child: Center(
+                          child:
+                          controller.image.value == null
+                              ? Icon(
+                            Icons.add,
+                            color: ColorManager.primaryPurple,
+                          )
+                              : SizedBox(
+                            height: double.infinity,
+                            width: double.infinity,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.file(
+                                File(controller.image.value!.path),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
                 ),
 
                 _buildTextField(controller.nameController, 'Name',1),
@@ -66,12 +73,12 @@ class AddProductView extends GetView<AddProductController> {
                 ),_buildTextField(
                   controller.descriptionController,
                   'Description',3,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                 ),
 
                 _buildTextField(
-                  controller.landlordNameController,
-                  'Landlord Name',1
+                    controller.landlordNameController,
+                    'Landlord Name',1
                 ),
 
                 _buildTextField(
@@ -92,11 +99,14 @@ class AddProductView extends GetView<AddProductController> {
                 _buildTextField(controller.cityController, 'City',1),
                 _buildTextField(controller.ratingController, 'Rating',1),
                 ElevatedButton(
-                  onPressed: controller.addProduct,
+                  onPressed: (){
+
+                    controller.editProduct(controller.index!);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.purple,
                   ),
-                  child: Text('Add Property',style: TextStyle(color: ColorManager.primaryWhite),),
+                  child: Text('Save Property',style: TextStyle(color: ColorManager.primaryWhite),),
                 ),
               ],
             ),
@@ -108,12 +118,12 @@ class AddProductView extends GetView<AddProductController> {
 }
 
 Widget _buildTextField(
-  TextEditingController controller,
+    TextEditingController controller,
 
-  String label, int? minLine ,
+    String label, int? minLine ,
     {
-  TextInputType keyboardType = TextInputType.text,
-}) {
+      TextInputType keyboardType = TextInputType.text,
+    }) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 8.0),
     child: TextFormField(

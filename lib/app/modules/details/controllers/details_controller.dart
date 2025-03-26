@@ -5,7 +5,10 @@ class DetailsController extends GetxController {
   //TODO: Implement DetailsController
 
 
-  Datum? rentalModel;
+Map<dynamic,dynamic>? rentalModel;
+
+
+RxBool isLoading=false.obs;
 
   final count = 0.obs;
   @override
@@ -24,4 +27,14 @@ class DetailsController extends GetxController {
   }
 
   void increment() => count.value++;
+
+void setLoading(bool value){
+
+  isLoading.value=value;
+
+
+
+
+}
+
 }
