@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:room_rental_app/app/modules/editData/controllers/edit_data_controller.dart';
+import 'package:room_rental_app/app/modules/home/controllers/home_controller.dart';
 
 import '../../../../Core/db/dbConfig.dart';
 import '../../../routes/app_pages.dart';
@@ -10,10 +11,11 @@ class PropertyListController extends GetxController {
   //TODO: Implement PropertyListController
 
   final count = 0.obs;
+  HomeController homeController=Get.find();
 
   RxList<Map<dynamic, dynamic>> propertyData = <Map<dynamic, dynamic>>[].obs;
   RxBool isLoading = false.obs;
-  EditDataController editDataController=Get.find();
+  EditDataController editDataController = Get.find();
 
   @override
   void onInit() {
@@ -35,6 +37,7 @@ class PropertyListController extends GetxController {
     isLoading.value = value;
   }
 
+  /// fetch product
   Future<void> fetchPropertyData() async {
     try {
       setLoading(true);
@@ -67,33 +70,61 @@ class PropertyListController extends GetxController {
     }
   }
 
-  ///
- editProduct(int index)async{
+  /// add product
+  Future<void> addProduct() async {
+    final result = await Get.toNamed(Routes.ADD_PRODUCT);
 
-    try{
+    // Check if the result indicates the list should be refreshed
+    if (result == true) {
+      propertyData.clear(); // Clear existing data
+      fetchPropertyData();
+      homeController.fetchPropertyData();// Refresh data
+    }
+  }
 
-      editDataController.nameController.text= propertyData[index]['name'];
-      editDataController.priceController.text= propertyData[index]['price'];
-      editDataController.descriptionController.text= propertyData[index]['description'];
-      editDataController.landlordNameController.text= propertyData[index]['landlordName'];
-      editDataController.landlordNumberController.text= propertyData[index]['landlordNumber'];
-      editDataController.landlordEmailController.text= propertyData[index]['landlordEmail'];
-      editDataController.bedroomController.text= propertyData[index]['badRoom'];
-      editDataController.bathroomController.text= propertyData[index]['bathRoom'];
-      editDataController.parkingController.text= propertyData[index]['parking'];
-      editDataController.wifiController.text= propertyData[index]['wifi'];
-      editDataController.cityController.text= propertyData[index]['city'];
-      editDataController.ratingController.text= propertyData[index]['rating'];
-      editDataController.addressController.text= propertyData[index]['address'];
-      editDataController.image.value=XFile(propertyData[index]['imageUrl']);
-      editDataController.index=index;
-
-
-
-
-      if(kDebugMode){
+  /// add product
+  Future<void> deleteProduct(int index) async {
+    try {
+      await DBConfig().deleteProduct(index);
+      propertyData.value = [];
+      fetchPropertyData();
+      homeController.fetchPropertyData();// Refresh data
+    } catch (e) {
+      rethrow;
+    }
 
 
+
+  }
+
+  /// edit product
+  editProduct(int index) async {
+    try {
+      editDataController.nameController.text = propertyData[index]['name'];
+      editDataController.priceController.text = propertyData[index]['price'];
+      editDataController.descriptionController.text =
+          propertyData[index]['description'];
+      editDataController.landlordNameController.text =
+          propertyData[index]['landlordName'];
+      editDataController.landlordNumberController.text =
+          propertyData[index]['landlordNumber'];
+      editDataController.landlordEmailController.text =
+          propertyData[index]['landlordEmail'];
+      editDataController.bedroomController.text =
+          propertyData[index]['badRoom'];
+      editDataController.bathroomController.text =
+          propertyData[index]['bathRoom'];
+      editDataController.parkingController.text =
+          propertyData[index]['parking'];
+      editDataController.wifiController.text = propertyData[index]['wifi'];
+      editDataController.cityController.text = propertyData[index]['city'];
+      editDataController.ratingController.text = propertyData[index]['rating'];
+      editDataController.addressController.text =
+          propertyData[index]['address'];
+      editDataController.image.value = XFile(propertyData[index]['imageUrl']);
+      editDataController.index = index;
+
+      if (kDebugMode) {
         print("======Name===========${editDataController.nameController.text}");
       }
 
@@ -103,19 +134,10 @@ class PropertyListController extends GetxController {
       if (result == true) {
         propertyData.clear();
         fetchPropertyData();
+        homeController.fetchPropertyData();// Refresh data
       }
-
-
-
-
-
-
-    }catch(e){
+    } catch (e) {
       rethrow;
     }
-
-
- }
-
-
+  }
 }

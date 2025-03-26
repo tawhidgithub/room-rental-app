@@ -76,6 +76,7 @@ class HomeController extends GetxController {
 
   Future<void> fetchPropertyData() async {
     try {
+      propertyData.value=[];
       // Ensure the box is open before fetching data
       await DBConfig().openDBBox();
 

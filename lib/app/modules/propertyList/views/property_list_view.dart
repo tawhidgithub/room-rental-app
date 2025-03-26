@@ -18,7 +18,7 @@ class PropertyListView extends GetView<PropertyListController> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.toNamed(Routes.ADD_PRODUCT);
+          controller.addProduct();
         },
         child: Icon(Icons.add),
       ),
@@ -92,8 +92,8 @@ class PropertyListView extends GetView<PropertyListController> {
                                   ),
                                   SlidableAction(
                                     onPressed: (value) {
-                                      DBConfig().deleteProduct(index);
-                                      controller.fetchPropertyData();
+                                      controller.deleteProduct(index);
+
                                     },
                                     backgroundColor: Color(0xFFFE4A49),
                                     foregroundColor: Colors.white,
