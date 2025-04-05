@@ -11,6 +11,7 @@ abstract class Routes {
   static const PROPERTY_LIST = _Paths.PROPERTY_LIST;
   static const ADD_PRODUCT = _Paths.ADD_PRODUCT;
   static const EDIT_DATA = _Paths.EDIT_DATA;
+  static const USER = _Paths.USER;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const PROPERTY_LIST = '/property-list';
   static const ADD_PRODUCT = '/add-product';
   static const EDIT_DATA = '/edit-data';
+  static const USER = '/user';
 }

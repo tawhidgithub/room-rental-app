@@ -26,6 +26,10 @@ class DashBoardView extends GetView<DashBoardController> {
               icon: Icon(Icons.list, size: 30),
               label: 'Rentals',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person, size: 30),
+              label: 'Users',
+            ),
 
           ],
           currentIndex: controller.selectedIndex.value,

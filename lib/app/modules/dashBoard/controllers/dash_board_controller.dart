@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:room_rental_app/app/modules/User/views/user_view.dart';
 import 'package:room_rental_app/app/modules/details/views/details_view.dart';
 import 'package:room_rental_app/app/modules/home/views/home_view.dart';
-import 'package:room_rental_app/app/modules/profile/views/profile_view.dart';
 import 'package:room_rental_app/app/modules/propertyList/views/property_list_view.dart';
 
 class DashBoardController extends GetxController {
@@ -35,7 +35,7 @@ RxList  screenList = [
     PropertyListView(),
 
     // Profile Screen
-    ProfileView(),
+    UserView(),
   ].obs;
 
   void onItemTapped(int index) {
