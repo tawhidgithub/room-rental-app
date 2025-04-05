@@ -43,7 +43,7 @@ class HomeView extends GetView<HomeController> {
                       InkWell(
                         onTap: () async {
 
-                          await DBConfig().getProduct();
+                          await DBConfig().getProducts();
                           if(kDebugMode){
 
                             // print("----------------${DBConfig()}");

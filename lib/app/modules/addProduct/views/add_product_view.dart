@@ -62,7 +62,7 @@ class AddProductView extends GetView<AddProductController> {
                 _buildTextField(
                   controller.priceController,
                   'Price',1,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                 ),_buildTextField(
                   controller.descriptionController,
                   'Description',3,

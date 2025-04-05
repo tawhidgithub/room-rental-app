@@ -1,29 +1,25 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 
 class DBConfig {
   static final DBConfig _instance = DBConfig._internal();
-
-  factory DBConfig() {
-    return _instance;
-  }
-
+  factory DBConfig() => _instance;
   DBConfig._internal();
 
-  Box<dynamic>? box;
+  Box<dynamic>? productBox;
+  Box<dynamic>? usersBox;
 
   Future<void> openDBBox() async {
-    if (box != null && box!.isOpen) {
-      // Box is already open
-      return;
+    if (productBox != null && productBox!.isOpen && usersBox != null && usersBox!.isOpen) {
+      return; // Boxes are already open
     }
 
     try {
-      box = await Hive.openBox('product');
+      productBox = await Hive.openBox('product');
+      usersBox = await Hive.openBox('user');
       if (kDebugMode) {
-        print("Box opened successfully.");
+        print("Boxes opened successfully.");
       }
     } catch (e) {
       if (kDebugMode) {
@@ -48,11 +44,9 @@ class DBConfig {
     required String city,
     required String rating,
   }) async {
-    if (box == null) {
-      await openDBBox();
-    }
+    await openDBBox();
 
-    if (box != null) {
+    if (productBox != null) {
       final product = {
         'name': name,
         'price': price,
@@ -74,25 +68,15 @@ class DBConfig {
         print("Adding product: $product");
       }
 
-      await box!.add(product);
+      await productBox!.add(product);
     }
   }
 
-  Future<void> getProduct() async {
-    if (box == null) {
-      await openDBBox();
-    }
+  Future<List<dynamic>> getProducts() async {
+    await openDBBox();
 
-    if (box != null) {
-      final products = box!.values.toList();
-      if (kDebugMode) {
-        print("Retrieved products: $products");
-      }
-    }
+    return productBox != null ? productBox!.values.toList() : [];
   }
-
-  /// edit in data base
-
 
   Future<void> editProduct({
     required int index,
@@ -111,68 +95,78 @@ class DBConfig {
     String? city,
     String? rating,
   }) async {
-    if (box == null) {
-      await openDBBox();
-    }
+    await openDBBox();
 
-    if (box != null && index < box!.length) {
-      final product = box!.getAt(index) as Map<dynamic, dynamic>?;
+    if (productBox != null && index < productBox!.length) {
+      final product = productBox!.getAt(index) as Map<dynamic, dynamic>? ?? {};
 
-      if (product != null) {
-        final updatedProduct = {
-          'name': name ?? product['name'],
-          'price': price ?? product['price'],
-          'description': description ?? product['description'],
-          'imageUrl': imageUrl!.path ?? product['imageUrl'],
-          'landlordName': landlordName ?? product['landlordName'],
-          'address': address ?? product['address'],
-          'landlordEmail': landlordEmail ?? product['landlordEmail'],
-          'landlordNumber': landlordNumber ?? product['landlordNumber'],
-          'badRoom': badRoom ?? product['badRoom'],
-          'bathRoom': bathRoom ?? product['bathRoom'],
-          'parking': parking ?? product['parking'],
-          'wifi': wifi ?? product['wifi'],
-          'city': city ?? product['city'],
-          'rating': rating ?? product['rating'],
-        };
+      final updatedProduct = {
+        'name': name ?? product['name'],
+        'price': price ?? product['price'],
+        'description': description ?? product['description'],
+        'imageUrl': imageUrl?.path ?? product['imageUrl'],
+        'landlordName': landlordName ?? product['landlordName'],
+        'address': address ?? product['address'],
+        'landlordEmail': landlordEmail ?? product['landlordEmail'],
+        'landlordNumber': landlordNumber ?? product['landlordNumber'],
+        'badRoom': badRoom ?? product['badRoom'],
+        'bathRoom': bathRoom ?? product['bathRoom'],
+        'parking': parking ?? product['parking'],
+        'wifi': wifi ?? product['wifi'],
+        'city': city ?? product['city'],
+        'rating': rating ?? product['rating'],
+      };
 
-        if (kDebugMode) {
-          print("Editing product at index $index: $updatedProduct");
-        }
-
-        await box!.putAt(index, updatedProduct);
-      } else {
-        if (kDebugMode) {
-          print("No product found at index $index.");
-        }
-      }
-    } else {
       if (kDebugMode) {
-        print("Index $index is out of range.");
+        print("Editing product at index $index: $updatedProduct");
       }
+
+      await productBox!.putAt(index, updatedProduct);
+    } else if (kDebugMode) {
+      print("Index $index is out of range.");
     }
   }
 
-  /// delete from database
-
   Future<void> deleteProduct(int index) async {
-    if (box == null) {
-      await openDBBox();
-    }
+    await openDBBox();
 
-    if (box != null && index < box!.length) {
+    if (productBox != null && index < productBox!.length) {
       if (kDebugMode) {
         print("Deleting product at index $index.");
       }
-
-      await box!.deleteAt(index);
-    } else {
-      if (kDebugMode) {
-        print("Index $index is out of range.");
-      }
+      await productBox!.deleteAt(index);
+    } else if (kDebugMode) {
+      print("Index $index is out of range.");
     }
   }
 
+  Future<void> addUser({
+    required String id,
+    required String name,
+    required String userName,
+    required String email,
+  }) async {
+    await openDBBox();
 
+    if (usersBox != null) {
+      final user = {
+        'id': id,
+        'name': name,
+        'userName': userName,
+        'email': email,
+      };
 
+      if (kDebugMode) {
+        print("Adding user: $user");
+      }
+
+      await usersBox!.add(user);
+    }
+  }
+
+  Future<List<dynamic>> getUsers() async {
+    await openDBBox();
+
+    return usersBox != null ? usersBox!.values.toList() : [];
+  }
 }

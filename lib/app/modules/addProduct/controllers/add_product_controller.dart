@@ -1,7 +1,5 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,28 +8,14 @@ import 'package:room_rental_app/Core/Image%20Picker%20Service/pickerService.dart
 import 'package:room_rental_app/Core/db/dbConfig.dart';
 
 class AddProductController extends GetxController {
-  //TODO: Implement AddProductController
-
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  Rxn<XFile> image = Rxn<XFile>();
+  final Rxn<XFile> image = Rxn<XFile>();
   Uint8List? imageInByte;
-  void increment() => count.value++;
 
   // Form field controllers
   final nameController = TextEditingController();
   final priceController = TextEditingController();
   final descriptionController = TextEditingController();
-  final imageUrlController = TextEditingController();
   final landlordNameController = TextEditingController();
   final addressController = TextEditingController();
   final landlordEmailController = TextEditingController();
@@ -43,12 +27,11 @@ class AddProductController extends GetxController {
   final cityController = TextEditingController();
   final ratingController = TextEditingController();
 
-  // Dispose controllers to avoid memory leaks
   @override
   void onClose() {
     nameController.dispose();
     priceController.dispose();
-    imageUrlController.dispose();
+    descriptionController.dispose();
     landlordNameController.dispose();
     addressController.dispose();
     landlordEmailController.dispose();
@@ -58,49 +41,53 @@ class AddProductController extends GetxController {
     parkingController.dispose();
     wifiController.dispose();
     cityController.dispose();
-    descriptionController.dispose();
+    ratingController.dispose();
     super.onClose();
   }
 
+  void increment() => count.value++;
+
   void addProduct() async {
+    if (image.value != null) {
+      final imageFile = File(image.value!.path);
 
-    final imageFile = image.value != null ? File(image.value!.path) : null;
-
-
-
-    DBConfig().addProduct(
-      name: nameController.text,
-      price: priceController.text ,
-      description: descriptionController.text,
-      imageUrl: imageFile!,
-      landlordName: landlordNameController.text,
-      address: addressController.text,
-      landlordEmail: landlordEmailController.text,
-      landlordNumber: landlordNumberController.text,
-      badRoom: bedroomController.text,
-      bathRoom: bathroomController.text,
-      parking: parkingController.text,
-      wifi: wifiController.text,
-      city: cityController.text,
-      rating: ratingController.text,
-    );
-    Get.back(result: true);
+      DBConfig().addProduct(
+        name: nameController.text,
+        price: priceController.text,
+        description: descriptionController.text,
+        imageUrl: imageFile,
+        landlordName: landlordNameController.text,
+        address: addressController.text,
+        landlordEmail: landlordEmailController.text,
+        landlordNumber: landlordNumberController.text,
+        badRoom: bedroomController.text,
+        bathRoom: bathroomController.text,
+        parking: parkingController.text,
+        wifi: wifiController.text,
+        city: cityController.text,
+        rating: ratingController.text,
+      );
+      Get.back(result: true);
+    } else if (kDebugMode) {
+      print("No image selected.");
+    }
   }
-
-  /// pic Image from gallery
 
   Future<void> picImage() async {
     try {
-      XFile imagePath =
-          await ImagePickerService().pickImageFromGallery() as XFile;
+      final imagePath = await ImagePickerService().pickImageFromGallery();
+      if (imagePath != null) {
+        image.value = imagePath;
+        imageInByte = await imagePath.readAsBytes();
 
-      image.value = imagePath;
-      imageInByte = await imagePath.readAsBytes();
-      if(kDebugMode){
-
-        print("--------------$imageInByte");
+        if (kDebugMode) {
+          print("Picked image bytes: $imageInByte");
+        }
       }
     } catch (e) {
+      if (kDebugMode) {
+        print("Image picking error: $e");
+      }
       rethrow;
     }
   }

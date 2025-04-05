@@ -6,6 +6,7 @@ import 'package:room_rental_app/Core/db/dbConfig.dart';
 import 'package:room_rental_app/app/modules/home/views/home_view.dart';
 import 'package:room_rental_app/app/routes/app_pages.dart';
 
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   var dir=  await getApplicationDocumentsDirectory();

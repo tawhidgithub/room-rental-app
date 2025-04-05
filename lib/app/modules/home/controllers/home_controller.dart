@@ -47,7 +47,7 @@ class HomeController extends GetxController {
       // Ensure the box is open before fetching data
       await DBConfig().openDBBox();
 
-      final box = DBConfig().box;
+      final box = DBConfig().productBox;
       if (kDebugMode) {
         print("----------Unexpected item format in box: ${box!.values}");
         print("----------Unexpected item format in box: ${box.values.length}");

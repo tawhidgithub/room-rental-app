@@ -21,7 +21,7 @@ class UserView extends GetView<UserController> {
           slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
-                childCount: controller.users.length,
+                childCount: controller.userData.length,
                     (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
@@ -53,7 +53,7 @@ class UserView extends GetView<UserController> {
                                 ),
                               ),
                               Text(
-                                controller.users[index].id.toString(),
+                                controller.userData[index]['id'],
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -67,7 +67,7 @@ class UserView extends GetView<UserController> {
                                 ),
                               ),
                               Text(
-                                controller.users[index].name.toString(),
+                                controller.userData[index]['name'],
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -82,7 +82,7 @@ class UserView extends GetView<UserController> {
                                 ),
                               ),
                               Text(
-                                controller.users[index].username.toString(),
+                                controller.userData[index]['userName'],
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -97,7 +97,7 @@ class UserView extends GetView<UserController> {
                                 ),
                               ),
                               Text(
-                                controller.users[index].email.toString(),
+                                controller.userData[index]['email'],
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],

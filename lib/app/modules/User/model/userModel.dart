@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class Users {
+class UsersApiModel {
   int? id;
   String? name;
   String? username;
@@ -10,7 +10,7 @@ class Users {
   String? website;
   Company? company;
 
-  Users({
+  UsersApiModel({
     this.id,
     this.name,
     this.username,
@@ -21,11 +21,11 @@ class Users {
     this.company,
   });
 
-  factory Users.fromRawJson(String str) => Users.fromJson(json.decode(str));
+  factory UsersApiModel.fromRawJson(String str) => UsersApiModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Users.fromJson(Map<String, dynamic> json) => Users(
+  factory UsersApiModel.fromJson(Map<String, dynamic> json) => UsersApiModel(
     id: json["id"],
     name: json["name"],
     username: json["username"],
@@ -135,3 +135,6 @@ class Company {
     "bs": bs,
   };
 }
+
+
+
